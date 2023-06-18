@@ -1,7 +1,16 @@
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from .cart import Cart
 from .models import Product, Category
+
 # Create your views here.
+
+
+def  add_to_cart(request, product_id):
+    cart = Cart(request)
+    cart.add(product_id)
+
+    return redirect('frontpage')
 
 def search(request):
     query = request.GET.get('query', '')
