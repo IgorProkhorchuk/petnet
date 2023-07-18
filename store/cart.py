@@ -41,3 +41,9 @@ class Cart(object):
             self.cart[product_id]['quantity'] += int(quantity)
 
         self.save()
+
+    def get_total_cost(self):
+        for p in self.cart.keys():
+            self.cart[str(p)]['product'] = Product.objects.get(pk=p)
+        return int(sum(item['product'].price * item['quantity'] for item in self.cart.values())) / 100
+    
