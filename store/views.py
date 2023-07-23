@@ -12,6 +12,12 @@ def  add_to_cart(request, product_id):
 
     return redirect('frontpage')
 
+def cart_view(request):
+    cart = Cart(request)
+    return render(request, 'store/cart_view.html', {
+        'cart': cart
+    })
+
 def search(request):
     query = request.GET.get('query', '')
     products = Product.objects.filter(status=Product.ACTIVE).filter(Q(title__icontains=query) | Q(description__icontains=query))
@@ -28,6 +34,8 @@ def category_detail(request, slug):
         'category': category,
         'products': products
     })
+
+
 
 def product_detail(request, category_slug, slug):
     product = get_object_or_404(Product, slug=slug, status=Product.ACTIVE)
