@@ -2,6 +2,7 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from .cart import Cart
 from .models import Product, Category
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -47,6 +48,10 @@ def search(request):
         'query': query,
         'products': products,
     })
+
+@login_required
+def checkout(request):
+    return render(request, 'store/checkout.html')
 
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
