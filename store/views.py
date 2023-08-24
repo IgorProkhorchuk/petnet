@@ -1,6 +1,7 @@
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from .cart import Cart
+from .forms import OrderForm
 from .models import Product, Category
 from django.contrib.auth.decorators import login_required
 
@@ -51,7 +52,14 @@ def search(request):
 
 @login_required
 def checkout(request):
-    return render(request, 'store/checkout.html')
+    cart = Cart(request)
+
+    form = OrderForm
+
+    return render(request, 'store/checkout.html', {
+        'cart': cart,
+        'form': form,
+    })
 
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
